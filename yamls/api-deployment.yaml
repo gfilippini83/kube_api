@@ -15,4 +15,4 @@ spec:
     spec:
       containers:
       - name: app-api
-        image: 'us.gcr.io/singular-elixir-308623/api:v1'
+        image: 'us.gcr.io/adroit-lantern-308821/api:v1'

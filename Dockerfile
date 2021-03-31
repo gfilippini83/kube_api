@@ -12,4 +12,4 @@ COPY . /src
 
 EXPOSE 3000
 
-CMD npm start
+CMD bash /src/startapi.sh

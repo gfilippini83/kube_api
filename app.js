@@ -1,9 +1,12 @@
 var logger = require('morgan');
 var express = require('express');
 var cors = require('cors');
+var bodyParser = require("body-parser");
 var cookieParser = require('cookie-parser');
 var indexRouter = require('./server/routes/index');
-var https = require('https');
+var authRouter = require('./server/routes/auth.routes');
+var userRouter = require('./server/routes/user.routes')
+// var https = require('https');
 var fs = require('fs');
 var app = express();
 
@@ -13,6 +16,8 @@ app.use(logger('dev'))
    .use(express.urlencoded({extended: true}))
    .use(cookieParser())
    .use('/api/v1', indexRouter)
+   .use('/api/auth', authRouter)
+   .use('/api/user', userRouter)
 
 const port = process.env.PORT || 3000;
 
