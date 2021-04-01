@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
-
+var articleController = require('../controllers/article.controller')
 const models = require('../mongo')
+const { authJwt } = require("../middlewares");
 
 router.get('/test', function(req, res, next) {
     var data = models.PageModel.find(function(error, results) {
@@ -46,5 +47,7 @@ router.get('/articles/:id',function(req, res, next) {
         }
     })
 })
+router.post('/post/articles', authJwt.verifyToken, authJwt.isBlogger, articleController.postBlog)
+router.post('/post/comment/:id', authJwt.verifyToken, articleController.postComment)
 
 module.exports = router; 

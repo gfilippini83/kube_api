@@ -13,7 +13,8 @@ exports.signup = (req, res) => {
   const user = new User({
     username: req.body.data.username,
     email: req.body.data.email,
-    password: bcrypt.hashSync(req.body.data.password, 8)
+    password: bcrypt.hashSync(req.body.data.password, 8),
+    roles: req.body.data.roles
   });
 
   user.save((err, user) => {
@@ -21,7 +22,7 @@ exports.signup = (req, res) => {
       res.status(500).send({ message: err });
       return;
     }
-    res.send({ message: "User was registered successfully!" });
+    res.send({ message: "User was registered successfully!", status: "SUCCESS" });
   });
 };
 
@@ -38,7 +39,7 @@ exports.signin = (req, res) => {
       }
 
       if (!user) {
-        return res.status(404).send({ message: "User Not found." });
+        return res.status(404).send({ message: "User Not found.", status: "FAILURE"  });
       }
 
       var passwordIsValid = bcrypt.compareSync(

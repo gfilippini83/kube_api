@@ -3,7 +3,7 @@ const models = require('../mongo');
 checkDuplicateUsernameOrEmail = (req, res, next) => {
     // Username
     models.UserModel.findOne({
-      username: req.body.username
+      username: req.body.data.username
     }).exec((err, user) => {
       if (err) {
         res.status(500).send({ message: err });
@@ -11,13 +11,13 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
       }
   
       if (user) {
-        res.status(400).send({ message: "Failed! Username is already in use!" });
+        res.status(200).send({ message: "Failed! Username is already in use!", status: "FAILURE" });
         return;
       }
   
       // Email
       models.UserModel.findOne({
-        email: req.body.email
+        email: req.body.data.email
       }).exec((err, user) => {
         if (err) {
           res.status(500).send({ message: err });
@@ -25,7 +25,7 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
         }
   
         if (user) {
-          res.status(400).send({ message: "Failed! Email is already in use!" });
+          res.status(200).send({ message: "Failed! Email is already in use!", status: "FAILURE" });
           return;
         }
   

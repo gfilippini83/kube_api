@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 // const config = require("../config/auth.config.js");
 // const db = require("../models");
-// const models = require('../mongo');
+const models = require('../mongo');
 
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
@@ -20,39 +20,38 @@ verifyToken = (req, res, next) => {
 };
 
 isAdmin = (req, res, next) => {
-    next()
-//   User.findById(req.userId).exec((err, user) => {
-//     if (err) {
-//       res.status(500).send({ message: err });
-//       return;
-//     }
-
-//     Role.find(
-//       {
-//         _id: { $in: user.roles }
-//       },
-//       (err, roles) => {
-//         if (err) {
-//           res.status(500).send({ message: err });
-//           return;
-//         }
-
-//         for (let i = 0; i < roles.length; i++) {
-//           if (roles[i].name === "admin") {
-//             next();
-//             return;
-//           }
-//         }
-
-//         res.status(403).send({ message: "Require Admin Role!" });
-//         return;
-//       }
-//     );
-//   });
+  let userId = req.headers["id"];
+  models.UserModel.findById(userId).exec((err, user) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    if(user.roles.includes('admin')) {
+      return res.status(200).json({'status': "UNAUTHORIZED", message: "Admin is not included in users roles."})
+    } else {
+      next()
+    }
+  });
+};
+isBlogger = (req, res, next) => {
+  let userId = req.headers["id"];
+  console.log(userId)
+  models.UserModel.findById(userId).exec((err, user) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    if(user.roles.includes('blogger') || user.roles.includes('admin')) {
+      return res.status(200).json({'status': "UNAUTHORIZED", message: "Admin is not included in users roles."})
+    } else {
+      next()
+    }
+  });
 };
 
 const authJwt = {
   verifyToken,
+  isBlogger,
   isAdmin
 };
 module.exports = authJwt;
