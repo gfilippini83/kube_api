@@ -3,13 +3,11 @@ const mongoose = require("mongoose");
 const User = mongoose.model(
   "User",
   new mongoose.Schema({
-    _id: mongoose.Types.ObjectId,
     username: String,
     email: String,
     password: String,
     roles: [
       {
-        __id: mongoose.Types.ObjectId,
         role: String
       }
     ],

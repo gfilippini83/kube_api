@@ -1,4 +1,5 @@
 const models = require('../mongo');
+const mongoose = require('mongoose');
 
 exports.postComment = (req, res) => {
     const id = req.params.id;

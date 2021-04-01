@@ -3,8 +3,6 @@
 const models = require('../mongo');
 const User = require('../models/user')
 
-const Role = models.RoleModel;
-
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
