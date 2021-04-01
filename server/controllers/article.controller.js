@@ -11,7 +11,7 @@ exports.postComment = (req, res) => {
             return res.status(401).json(err);
         } else {
 
-            return res.status(200).json(results);
+            return res.status(200).json({status: 'SUCCESS', message: 'comment has been successfully posted!'});
         }
     })
 }
